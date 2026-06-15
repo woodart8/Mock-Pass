@@ -9,6 +9,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HexFormat;
+import java.util.Objects;
 
 @Service
 public class PassService {
@@ -17,12 +18,14 @@ public class PassService {
     private String SYSTEM_SALT;
 
     public PassResponseDto authenticate(PassRequestDto dto) {
-        String ci = generateCi(dto.getName(), dto.getPhone());
+        final String name = dto.getName();
+        final String phone = parsePhone(dto.getPhone());
+        final String ci = generateCi(name, phone);
 
         return PassResponseDto.builder()
                 .ci(ci)
-                .name(dto.getName())
-                .phone(dto.getPhone())
+                .name(name)
+                .phone(phone)
                 .success(true)
                 .build();
     }
@@ -38,6 +41,20 @@ public class PassService {
         } catch (NoSuchAlgorithmException e) {
             throw new IllegalStateException("SHA-256 알고리즘을 초기화할 수 없습니다.", e);
         }
+    }
+
+    private String parsePhone(String phone) {
+        if (Objects.isNull(phone)) {
+            throw new IllegalArgumentException("전화번호는 필수 입력 항목입니다.");
+        }
+
+        String onlyDigits = phone.replaceAll("[^0-9]", "");
+
+        if (!onlyDigits.matches("^01[016789]\\d{7,8}$")) {
+            throw new IllegalArgumentException("유효하지 않은 전화번호 형식입니다.");
+        }
+
+        return onlyDigits;
     }
 
 }
