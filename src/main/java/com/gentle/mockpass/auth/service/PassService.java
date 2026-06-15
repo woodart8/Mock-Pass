@@ -50,7 +50,7 @@ public class PassService {
 
         String onlyDigits = phone.replaceAll("[^0-9]", "");
 
-        if (!onlyDigits.matches("^01[016789]\\d{7,8}$")) {
+        if (!onlyDigits.matches("^01(?:0|1|[6-9])-(?:\\d{3}|\\d{4})-\\d{4}$")) {
             throw new IllegalArgumentException("유효하지 않은 전화번호 형식입니다.");
         }
 
