@@ -14,7 +14,7 @@ import java.util.Objects;
 @Service
 public class PassService {
 
-    @Value("encryption.pass-salt")
+    @Value("${encryption.pass-salt}")
     private String SYSTEM_SALT;
 
     public PassResponseDto authenticate(PassRequestDto dto) {
