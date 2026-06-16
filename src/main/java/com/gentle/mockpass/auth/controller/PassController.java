@@ -4,7 +4,7 @@ import com.gentle.mockpass.auth.dto.PassRequestDto;
 import com.gentle.mockpass.auth.dto.PassResponseDto;
 import com.gentle.mockpass.auth.service.PassService;
 import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/pass")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class PassController {
 
     private final PassService passService;
